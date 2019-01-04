@@ -35,7 +35,7 @@ eureka:
 
 ---
 spring:
-  profiles: azure
+  profiles: azure-eureka
   autoconfigure:
     exclude:
       - org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistryAutoConfiguration
@@ -52,6 +52,22 @@ eureka:
 
 ---
 spring:
+  profiles: azure-consul
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        enabled: true
+        register: true
+server:
+  port: 8003
+
+---
+spring:
   profiles: hybrid
   autoconfigure:
     exclude:
@@ -62,6 +78,8 @@ spring:
       auto-registration:
         enabled: true
         fail-fast: true
+      multi-registration:
+        enabled: true
       auto-multi-registration:
         enabled: true
     consul:
